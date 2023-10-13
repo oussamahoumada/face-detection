@@ -1,0 +1,24 @@
+h1 {
+  width: 100%;
+  text-align: center;
+}
+
+.card {
+  margin: 1%;
+}
+
+.body {
+  display: flex;
+}
+
+.content {
+  margin-top: 5%;
+}
+
+mat-form-field {
+  margin: 0 1%;
+}
+
+.footer {
+  padding-left: 80%;
+}

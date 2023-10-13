@@ -1,0 +1,55 @@
+<div [formGroup]="form">
+  <h1>{{ title }}</h1>
+  <div class="body">
+    <div class="imageContainer">
+      <img src="{{ form.controls['image'].value }}" mat-card-image />
+      <div *ngIf="shouldBeShown">
+        <input type="file" formControlName="image" />
+      </div>
+    </div>
+
+    <mat-card class="card">
+      <mat-card-content class="content">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" required />
+          <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Mail</mat-label>
+          <input matInput formControlName="mail" required />
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Birthday</mat-label>
+          <input matInput formControlName="birthday" required />
+          <mat-icon matSuffix>cake</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>gender</mat-label>
+          <input matInput #gen formControlName="gender" required />
+          <mat-icon matSuffix *ngIf="gen.value != 'F'">male</mat-icon>
+          <mat-icon matSuffix *ngIf="gen.value == 'F'">female</mat-icon>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions class="footer">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!shouldBeShown"
+          (click)="update()"
+        >
+          Update
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="shouldBeShown"
+          (click)="add()"
+        >
+          Add
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
