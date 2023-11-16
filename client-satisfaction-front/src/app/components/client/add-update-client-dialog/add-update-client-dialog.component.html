@@ -2,9 +2,10 @@
   <h1>{{ title }}</h1>
   <div class="body">
     <div class="imageContainer">
-      <img src="{{ form.controls['image'].value }}" mat-card-image />
+      <img [src]="url" mat-card-image />
+      <img [src]="url1" mat-card-image />
       <div *ngIf="shouldBeShown">
-        <input type="file" formControlName="image" />
+        <input type="file" formControlName="image" (change)="upload_image($event)" />
       </div>
     </div>
 
@@ -22,31 +23,26 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Birthday</mat-label>
-          <input matInput formControlName="birthday" required />
+          <input matInput formControlName="dateNaissance" required />
           <mat-icon matSuffix>cake</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>gender</mat-label>
-          <input matInput #gen formControlName="gender" required />
-          <mat-icon matSuffix *ngIf="gen.value != 'F'">male</mat-icon>
-          <mat-icon matSuffix *ngIf="gen.value == 'F'">female</mat-icon>
+          <mat-label>Satisfaction</mat-label>
+          <input matInput formControlName="Satisfaction" required />
+          <mat-icon matSuffix>tag_faces</mat-icon>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>discount</mat-label>
+          <input matInput formControlName="discount" required />
+          <mat-icon matSuffix>cake</mat-icon>
+        </mat-form-field>
+
       </mat-card-content>
       <mat-card-actions class="footer">
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="!shouldBeShown"
-          (click)="update()"
-        >
+        <button mat-raised-button color="primary" *ngIf="!shouldBeShown" (click)="update()">
           Update
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="shouldBeShown"
-          (click)="add()"
-        >
+        <button mat-raised-button color="primary" *ngIf="shouldBeShown" (click)="add()">
           Add
         </button>
       </mat-card-actions>

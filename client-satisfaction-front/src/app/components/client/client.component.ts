@@ -2,6 +2,7 @@ import { GridOptions } from 'ag-grid-community';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddUpdateClientDialogComponent } from './add-update-client-dialog/add-update-client-dialog.component';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-client',
@@ -11,10 +12,14 @@ import { AddUpdateClientDialogComponent } from './add-update-client-dialog/add-u
 export class ClientComponent implements OnInit {
   public gridOptions!: GridOptions;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private clientService: ClientService) {
     this.gridOptions = {
       context: { thisConmponent: this },
     };
+
+    this.clientService.getClient().subscribe((res) => {
+      this.rowData = res;
+    });
   }
   ngOnInit() {}
 
@@ -27,42 +32,16 @@ export class ClientComponent implements OnInit {
       cellRenderer: 'agGroupCellRenderer',
       headerCheckboxSelectionFilteredOnly: true,
     },
-    { headerName: 'Id', field: 'id', hide: true },
+    { headerName: 'Id', field: 'client_id', hide: true },
     { headerName: 'Name', field: 'name' },
     { headerName: 'Mail', field: 'mail' },
-    { headerName: 'Birthday', field: 'birthday' },
-    { headerName: 'Gender', field: 'gender', hide: true },
+    { headerName: 'DateNaissance', field: 'dateNaissance' },
     { headerName: 'Discount', field: 'discount' },
-    { headerName: 'Satisfaction', field: 'satisfaction' },
+    { headerName: 'Satisfaction', field: 'Satisfaction' },
     { headerName: 'Image', field: 'image', hide: true },
   ];
 
-  public rowData: any = [
-    {
-      gender: 'H',
-      id: 'A37047U',
-      name: 'houmada',
-      image: 'assets/images/av1.png',
-      birthday: '2000/09/15',
-      mail: 'oussama@mail.com',
-    },
-    {
-      gender: 'H',
-      id: 'SDE467987',
-      name: 'benaissa',
-      image: 'assets/images/av2.jpeg',
-      birthday: '1998/08/30',
-      mail: 'sidahmed@mail.com',
-    },
-    {
-      gender: 'H',
-      id: 'JG367HY',
-      name: 'berkane',
-      image: 'assets/images/av3.jpeg',
-      birthday: '2000/12/12',
-      mail: 'samy@mail.com',
-    },
-  ];
+  public rowData: any;
 
   getContext(params: any): any {
     return [
@@ -104,7 +83,20 @@ export class ClientComponent implements OnInit {
 
     clientDialog.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
+        if (result.meth == 'add') {
+          this.clientService
+            .addClient(result.form)
+            .subscribe((res) => {
+              console.log(res);
+            });
+        }
+        if (result.meth == 'update') {
+          this.clientService
+            .updateClient(result.form.client_id, result.form)
+            .subscribe((res) => {
+              console.log(res);
+            });
+        }
       }
     });
   }
