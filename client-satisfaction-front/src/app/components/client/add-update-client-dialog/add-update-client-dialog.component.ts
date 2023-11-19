@@ -1,8 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatIconAnchor } from '@angular/material/button';
 import { Component, OnInit, Inject } from '@angular/core';
+import { ClientService } from 'src/app/services/client.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ClientService } from '../../../services/client.service';
 
 @Component({
   selector: 'app-add-update-client-dialog',

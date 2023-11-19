@@ -16,6 +16,7 @@ import { MaterialModule } from './modules/material/material.module';
 import { ClientComponent } from './components/client/client.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddUpdateClientDialogComponent } from './components/client/add-update-client-dialog/add-update-client-dialog.component';
+import { RecognitionComponent } from './components/recognition/recognition.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AddUpdateClientDialogComponent } from './components/client/add-update-c
     HomeComponent,
     ClientComponent,
     AddUpdateClientDialogComponent,
+    RecognitionComponent,
   ],
   imports: [
     FormsModule,

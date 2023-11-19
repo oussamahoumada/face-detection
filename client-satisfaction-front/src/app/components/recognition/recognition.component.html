@@ -1,0 +1,30 @@
+<div class="mainContainer">
+  <div class="leftContainer">
+    <mat-form-field appearance="outline">
+      <mat-label>Client</mat-label>
+      <input matInput style="color:#8A94A7;">
+      <mat-icon matSuffix></mat-icon>
+      <mat-hint>Name</mat-hint>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Satisfaction</mat-label>
+      <input matInput style="color:#8A94A7;">
+      <mat-icon matSuffix>{{satisfaction_labele}}</mat-icon>
+      <mat-hint>State</mat-hint>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Discount</mat-label>
+      <input matInput style="color:#8A94A7;">
+      <mat-icon matSuffix></mat-icon>
+      <mat-hint>Value</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="rightContainer">
+    <input type="file" (change)="upload_image($event)" style="color:#8A94A7;" class="input_file">
+    <div *ngIf="url!=''">
+      <img [src]="url" alt="" width="300">
+    </div>
+  </div>
+</div>

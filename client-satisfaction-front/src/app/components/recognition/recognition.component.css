@@ -1,0 +1,23 @@
+.mainContainer,mat-form-field,mat-label{
+  color:  #8A94A7;
+}
+.mainContainer{
+  display: flex;
+}
+
+mat-form-field, .input_file{
+  margin: 2%;
+}
+
+.leftContainer{
+ width: 50%;
+ margin-top: 5%;
+ text-align: center;
+}
+
+.rightContainer{
+  width: 50%;
+  text-align: center;
+  margin-top: 5%;
+}
+
