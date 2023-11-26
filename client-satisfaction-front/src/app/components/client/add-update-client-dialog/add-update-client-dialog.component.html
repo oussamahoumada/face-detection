@@ -2,8 +2,8 @@
   <h1>{{ title }}</h1>
   <div class="body">
     <div class="imageContainer">
-      <img [src]="url" mat-card-image />
-      <img [src]="url1" mat-card-image />
+      <!--<img [src]="url" mat-card-image />
+      <img [src]="url1" mat-card-image />-->
       <div *ngIf="shouldBeShown">
         <input type="file" formControlName="image" (change)="upload_image($event)" />
       </div>

@@ -2,21 +2,21 @@
   <div class="leftContainer">
     <mat-form-field appearance="outline">
       <mat-label>Client</mat-label>
-      <input matInput style="color:#8A94A7;">
+      <input matInput style="color:#8A94A7;" [value]="name">
       <mat-icon matSuffix></mat-icon>
       <mat-hint>Name</mat-hint>
     </mat-form-field><br>
 
     <mat-form-field appearance="outline">
       <mat-label>Satisfaction</mat-label>
-      <input matInput style="color:#8A94A7;">
+      <input matInput style="color:#8A94A7;" [value]="satisfaction">
       <mat-icon matSuffix>{{satisfaction_labele}}</mat-icon>
       <mat-hint>State</mat-hint>
     </mat-form-field><br>
 
     <mat-form-field appearance="outline">
       <mat-label>Discount</mat-label>
-      <input matInput style="color:#8A94A7;">
+      <input matInput style="color:#8A94A7;" [value]="discount">
       <mat-icon matSuffix></mat-icon>
       <mat-hint>Value</mat-hint>
     </mat-form-field>

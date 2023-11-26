@@ -44,9 +44,9 @@ export class AddUpdateClientDialogComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.clientService.downloadImage().subscribe((res) => {
+    /*this.clientService.downloadImage().subscribe((res) => {
       this.url1 = res.dataURL;
-    });
+    });*/
   }
   add() {
     if (this.form.valid) {
@@ -74,11 +74,11 @@ export class AddUpdateClientDialogComponent implements OnInit {
       reader.readAsDataURL(ev.target.files[0]);
       reader.onload = (event: any) => {
         this.url = event.target.result;
-        this.clientService
+        /*this.clientService
           .uploadImage(event.target.result, ev.target.files[0].name)
           .subscribe((res) => {
             console.log(res);
-          });
+          });*/
       };
     }
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-recognition',
@@ -6,21 +7,53 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recognition.component.css'],
 })
 export class RecognitionComponent implements OnInit {
-  public satisfaction_list = [
-    'sentiment_very_satisfied',
-    'sentiment_dissatisfied',
-    'sentiment_very_dissatisfied',
-  ];
-  public satisfaction_labele = 'sentiment_dissatisfied';
-  constructor() {}
+  constructor(private clientService: ClientService) {}
   ngOnInit() {}
-  public url = '';
+  public url: any;
+  public name: any;
+  public discount: any;
+  public satisfaction: any;
+  public satisfaction_labele: any;
+  public sensation = [
+    ['sad', '20%'],
+    ['fear', '5%'],
+    ['happy', '0%'],
+    ['angry', '20%'],
+    ['neutral', '0%'],
+    ['disgust', '15%'],
+    ['surprise', '0%'],
+  ];
+
+  public sensation_icon = [
+    ['fear', 'sentiment_dissatisfied'],
+    ['neutral', 'sentiment_satisfied'],
+    ['surprise', 'sentiment_satisfied'],
+    ['happy', 'sentiment_very_satisfied'],
+    ['sad', 'sentiment_very_dissatisfied'],
+    ['angry', 'sentiment_very_dissatisfied'],
+    ['disgust', 'sentiment_very_dissatisfied'],
+  ];
+
   upload_image(ev: any) {
     if (ev.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(ev.target.files[0]);
       reader.onload = (event: any) => {
         this.url = event.target.result;
+        this.clientService
+          .uploadImage(
+            event.target.result,
+            'copie.jpg' /*ev.target.files[0].name*/
+          )
+          .subscribe((res) => {
+            console.log(res);
+            let icon = this.sensation_icon.find((f) => f[0] == res.sentiment);
+            let disc = this.sensation.find((f) => f[0] == res.sentiment);
+            this.name = res.message;
+            this.satisfaction = res.sentiment;
+            this.discount = disc != undefined ? disc[1] : '';
+            this.satisfaction_labele = icon != undefined ? icon[1] : '';
+          });
       };
     }
   }
