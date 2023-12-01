@@ -1,8 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatIconAnchor } from '@angular/material/button';
 import { Component, OnInit, Inject } from '@angular/core';
-import { ClientService } from 'src/app/services/client.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RecognitionService } from '../../../services/recognition.service';
 
 @Component({
   selector: 'app-add-update-client-dialog',
@@ -13,7 +13,7 @@ export class AddUpdateClientDialogComponent implements OnInit {
   public title: string = '';
   public shouldBeShown: boolean = false;
   public url: any;
-  public url1: any;
+  public img_name: any;
 
   public form: FormGroup = new FormGroup({
     name: new FormControl(null),
@@ -27,7 +27,7 @@ export class AddUpdateClientDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddUpdateClientDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private clientService: ClientService
+    private recognitionService: RecognitionService
   ) {
     this.title = this.data.title;
     this.shouldBeShown = this.data.option;
@@ -36,22 +36,25 @@ export class AddUpdateClientDialogComponent implements OnInit {
         for (let control in this.form.controls) {
           if (field == control) {
             if (field == 'image') {
-              this.url = this.data.objet[field];
+              this.recognitionService
+                .downloadImage(this.data.objet[field])
+                .subscribe((res) => {
+                  this.url = res.dataURL;
+                });
             } else this.form.controls[control].setValue(this.data.objet[field]);
           }
         }
       }
     }
   }
-  ngOnInit() {
-    /*this.clientService.downloadImage().subscribe((res) => {
-      this.url1 = res.dataURL;
-    });*/
-  }
+  ngOnInit() {}
   add() {
     if (this.form.valid) {
+      let fr: any = this.form.value;
+      fr['image'] = this.url;
+      fr['img_name'] = this.img_name;
       let req = {
-        form: this.form.value,
+        form: fr,
         meth: 'add',
       };
       this.dialogRef.close(req);
@@ -74,13 +77,8 @@ export class AddUpdateClientDialogComponent implements OnInit {
       reader.readAsDataURL(ev.target.files[0]);
       reader.onload = (event: any) => {
         this.url = event.target.result;
-        /*this.clientService
-          .uploadImage(event.target.result, ev.target.files[0].name)
-          .subscribe((res) => {
-            console.log(res);
-          });*/
+        this.img_name = ev.target.files[0].name;
       };
     }
   }
-
 }

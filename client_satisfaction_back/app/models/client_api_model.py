@@ -14,19 +14,11 @@ client_model = api.model("client",{
 client_input_model = api.model("client_input",{
     'name': fields.String,
     'image' : fields.String,
+    'img_name' : fields.String,
     'mail' : fields.String,
     'discount' : fields.String,
     'Satisfaction' : fields.String,
     'dateNaissance' : fields.String,
-})
-
-upload_model = api.model('Upload', {
-    'message': fields.String, 
-    'filename': fields.String
-})
-upload_input_model = api.model('Upload_input', {
-    'file': fields.Raw,
-    'fileName' : fields.String,
 })
 
 client_delete_model = api.model("client_delete_input",{

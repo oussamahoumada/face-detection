@@ -2,8 +2,9 @@
   <h1>{{ title }}</h1>
   <div class="body">
     <div class="imageContainer">
-      <!--<img [src]="url" mat-card-image />
-      <img [src]="url1" mat-card-image />-->
+      <div *ngIf="url!=''">
+        <img [src]="url" alt="" width="300">
+      </div>
       <div *ngIf="shouldBeShown">
         <input type="file" formControlName="image" (change)="upload_image($event)" />
       </div>
@@ -28,12 +29,12 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Satisfaction</mat-label>
-          <input matInput formControlName="Satisfaction" required />
+          <input matInput formControlName="Satisfaction" />
           <mat-icon matSuffix>tag_faces</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>discount</mat-label>
-          <input matInput formControlName="discount" required />
+          <input matInput formControlName="discount" />
           <mat-icon matSuffix>cake</mat-icon>
         </mat-form-field>
 

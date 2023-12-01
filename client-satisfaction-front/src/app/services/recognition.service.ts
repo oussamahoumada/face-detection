@@ -14,7 +14,7 @@ export class RecognitionService {
 
   uploadImage(fl: any, flName: string): Observable<any> {
     return this.http.post(
-      this.path + 'Recognition/',
+      this.path + 'Recognition/upload_image',
       {
         file: fl,
         fileName: flName,
@@ -25,10 +25,14 @@ export class RecognitionService {
     );
   }
 
-  downloadImage(): Observable<any> {
-    return this.http.get(this.path + 'Recognition/', {
-      headers: corsHeaders,
-    });
+  downloadImage(path: any): Observable<any> {
+    return this.http.post(
+      this.path + 'Recognition/load_image',
+      { path: path },
+      {
+        headers: corsHeaders,
+      }
+    );
   }
 
   sent_mail(message: any) {

@@ -1,8 +1,10 @@
+import os
 from sqlalchemy import  delete
 from flask_restx import Resource, Namespace
 
 from ..extensions import db
 from ..models.models import client
+from .recognitionController import uploadImage
 from ..models.client_api_model import client_model, client_input_model,client_delete_model
 
 clientNs = Namespace("Client/")
@@ -16,17 +18,20 @@ class client_adressAPI(Resource):
     @clientNs.expect(client_input_model)
     @clientNs.marshal_with(client_model)
     def post(self):
+        
         clt = client(
             name = clientNs.payload['name'],
             mail = clientNs.payload['mail'],
-            image = clientNs.payload['image'],
+            image = os.path.join("./app/peoples/", clientNs.payload['img_name']),
             discount = clientNs.payload['discount'],
             Satisfaction = clientNs.payload['Satisfaction'],
             dateNaissance = clientNs.payload['dateNaissance'],
         )
         db.session.add(clt)
         db.session.commit()
-
+        
+        uploadImage(clientNs.payload['image'], "./app/peoples/", clientNs.payload['img_name'])
+        
         return clt
 
 @clientNs.route("/delete")

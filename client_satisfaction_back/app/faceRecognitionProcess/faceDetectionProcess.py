@@ -1,51 +1,41 @@
-
-import face_recognition as fr
-import cv2 as cv
 import os
+import numpy as np
+import face_recognition
 
-file_path = os.path.abspath('copie.jpg')
-target_image = fr.load_image_file(file_path)
-target_encoding = fr.face_encodings(target_image)
-
-def encode_faces(folder):
-    list_people_encoding = []
-
+def load_images_from_folder(folder):
+    images = []
     for filename in os.listdir(folder):
-        known_image = fr.load_image_file(f'{folder}/{filename}')
-        known_encoding = fr.face_encodings(known_image)[0]
+        if filename.endswith(".jpg") or filename.endswith(".png"):
+            image_path = os.path.join(folder, filename)
+            image = face_recognition.load_image_file(image_path)
+            face_encodings = face_recognition.face_encodings(image)
+            if face_encodings:  # Check if a face is found in the image
+                images.append((filename.split(".")[0], np.array(face_encodings[0])))  # Convert encoding to np.ndarray
+    return images
 
-        list_people_encoding.append((known_encoding, filename))
+def recognize_faces(image_to_check, path):
+    known_faces = load_images_from_folder(path)
+    # Load the image to check
+    unknown_image = face_recognition.load_image_file(image_to_check)
+
+    # Find all face locations in the unknown image
+    face_locations = face_recognition.face_locations(unknown_image)
     
-    return list_people_encoding
+    # Encode faces in the unknown image
+    unknown_face_encodings = face_recognition.face_encodings(unknown_image, face_locations)
 
-def find_target_face():
-    face_location = fr.face_locations(target_image)
-    print(face_location)
-    for person in encode_faces(os.path.abspath('app/faceRecognitionProcess/people/')):
-        encoded_face = person[0]
-        filename = person[1]
+    # Loop through each face found in the unknown image
+    for i, unknown_face_encoding in enumerate(unknown_face_encodings):
+        # Compare the unknown face encoding with the known face encodings
+        if known_faces:
+            matches = face_recognition.compare_faces([face[1] for face in known_faces], unknown_face_encoding)
 
-        is_target_face = fr.compare_faces(encoded_face, target_encoding, tolerance=0.55)
-        print(f'{is_target_face}{filename.split(".")[0]}')
-        if('True' in is_target_face):
-            return filename.split(".")[0]
-        
+            name = "Unknown"  # Default name if no match is found
 
-        if face_location:
-            face_number = 0
-            for location in face_location:
-                if is_target_face[face_number]:
-                    label = filename.split(".")[0]
-                    create_frame(location,label)
-                
-                face_number+=1
-    
-    return "not found"
+            # Check if a match is found
+            if True in matches:
+                first_match_index = matches.index(True)
+                name = known_faces[first_match_index][0]  # Get the name corresponding to the matching face
 
-def create_frame(location, label):
-    top,right,bottom,left = location
-
-    cv.rectangle(target_image, (left,top), (right, bottom), (255, 0, 0), 2)
-    cv.rectangle(target_image, (left,bottom+20), (right, bottom), (255, 0, 0), cv.FILLED)
-
-    cv.putText(target_image, label, (left+3,bottom+14), cv.FONT_HERSHEY_DUPLEX, 0.4, (255,255,255),1)
+            print(f"Face {i + 1}: {name}")
+            return name

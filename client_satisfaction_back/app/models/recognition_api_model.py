@@ -9,3 +9,7 @@ upload_input_model = api.model('Upload_input', {
     'file': fields.Raw,
     'fileName' : fields.String,
 })
+
+load_input_model = api.model('load_input', {
+    'path' : fields.String,
+})
