@@ -2,7 +2,7 @@
 
 ## Commandes Docker
 ```bash
-cd drop_voice_back
+cd client_satisfaction_back
 ```
 ### Start le container
 ```bash

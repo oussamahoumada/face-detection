@@ -1,21 +1,17 @@
-import os
-import base64
-from flask import  jsonify
+from sqlalchemy import  delete
 from flask_restx import Resource, Namespace
 
 from ..extensions import db
 from ..models.models import client
-from ..faceRecognitionProcess.faceDetectionProcess import find_target_face
-from ..sensationRecognitionProcess.humeurRecognition import sensationProcess
-from ..models.client_api_model import client_model, client_input_model,upload_model, upload_input_model
+from ..models.client_api_model import client_model, client_input_model,client_delete_model
 
-clientNs = Namespace("API/")
+clientNs = Namespace("Client/")
 
-@clientNs.route("/client")
+@clientNs.route("/")
 class client_adressAPI(Resource):
     @clientNs.marshal_list_with(client_model)
     def get(self):
-        return []#client.query.all()
+        return client.query.all()
 
     @clientNs.expect(client_input_model)
     @clientNs.marshal_with(client_model)
@@ -33,8 +29,20 @@ class client_adressAPI(Resource):
 
         return clt
 
+@clientNs.route("/delete")
+class client_adressAPI(Resource):    
+    @clientNs.expect(client_delete_model)
+    def post(self):
+        lst=[]
+        for i in clientNs.payload["ids"]:
+            lst.append(i['id'])
+        client_del = delete(client).where(client.client_id.in_(lst))
 
-@clientNs.route("/client/<int:id>")
+        db.session.execute(client_del)
+        db.session.commit()
+        return "delete success",200
+
+@clientNs.route("/<int:id>")
 class clients_adressAPI(Resource):
     @clientNs.expect(client_input_model)
     @clientNs.marshal_with(client_model)
@@ -55,51 +63,3 @@ class clients_adressAPI(Resource):
             return clt
         
         return "error",204
-    
-    @clientNs.expect(client_input_model)
-    @clientNs.marshal_with(client_model)
-    def delete(self,id):
-        clt = client.query.get(id)
-        if(clt):
-            db.session.delete(clt)
-            db.session.commit()
-
-            return clt
-    
-        return "error",204
-        
-
-@clientNs.route("/image")
-class clients_adressAPI(Resource):
-    @clientNs.expect(upload_input_model)
-    def post(self):
-        file_content = clientNs.payload['file']
-
-        # Extract the base64 encoded image data
-        _, encoded_data = file_content.split(',', 1)
-        decoded_data = base64.b64decode(encoded_data)
-
-        # Save the image inn  folder
-        filename = clientNs.payload['fileName']
-        filepath = os.path.join("./", filename)
-        with open(filepath, 'wb') as file:
-            file.write(decoded_data)
-        
-        name = find_target_face()
-        sensation = sensationProcess()
-
-        return {'message': name, 'sentiment':sensation}
-
-    def get(self):
-        filename = 'copie.jpg'
-        filepath = os.path.join("./", filename)
-
-        with open(filepath, 'rb') as file:
-            image_data = file.read()
-
-        encoded_data = base64.b64encode(image_data).decode('utf-8')
-        data_url = f'data:image/jpg;base64,{encoded_data}'
-
-        return jsonify({'dataURL': data_url})
-
-

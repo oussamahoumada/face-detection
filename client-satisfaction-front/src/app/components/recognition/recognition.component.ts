@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientService } from 'src/app/services/client.service';
+import { RecognitionService } from '../../services/recognition.service';
 
 @Component({
   selector: 'app-recognition',
@@ -7,7 +7,7 @@ import { ClientService } from 'src/app/services/client.service';
   styleUrls: ['./recognition.component.css'],
 })
 export class RecognitionComponent implements OnInit {
-  constructor(private clientService: ClientService) {}
+  constructor(private recognitionService: RecognitionService) {}
   ngOnInit() {}
   public url: any;
   public name: any;
@@ -40,7 +40,7 @@ export class RecognitionComponent implements OnInit {
       reader.readAsDataURL(ev.target.files[0]);
       reader.onload = (event: any) => {
         this.url = event.target.result;
-        this.clientService
+        this.recognitionService
           .uploadImage(
             event.target.result,
             'copie.jpg' /*ev.target.files[0].name*/
@@ -53,6 +53,13 @@ export class RecognitionComponent implements OnInit {
             this.satisfaction = res.sentiment;
             this.discount = disc != undefined ? disc[1] : '';
             this.satisfaction_labele = icon != undefined ? icon[1] : '';
+            if (this.discount != '0%') {
+              this.recognitionService.sent_mail({
+                client: this.name,
+                satisfaction: this.satisfaction,
+                discount: this.discount,
+              });
+            }
           });
       };
     }

@@ -28,3 +28,7 @@ upload_input_model = api.model('Upload_input', {
     'file': fields.Raw,
     'fileName' : fields.String,
 })
+
+client_delete_model = api.model("client_delete_input",{
+    'ids' : fields.Raw(),
+})

@@ -1,5 +1,19 @@
-<button mat-raised-button color="primary" (click)="openClientDialog()">
+<button
+    mat-raised-button
+    color="primary"
+    class="button"
+    (click)="openClientDialog()"
+  >
   New Client
+</button>
+<button
+    mat-raised-button
+    color="warn"
+    style="width:100%"
+    *ngIf="showDeleteButton"
+    (click)="getRowsSelected()"
+  >
+  delete
 </button>
 <ag-grid-angular
   class="ag-theme-alpine-dark"
@@ -15,5 +29,8 @@
   [gridOptions]="gridOptions"
   [defaultColDef]="defaultColDef"
   [getContextMenuItems]="getContext"
+
+  (click)="onRowSelect()"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
