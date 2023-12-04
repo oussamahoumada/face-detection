@@ -1,36 +1,21 @@
-<button
-    mat-raised-button
-    color="primary"
-    class="button"
-    (click)="openClientDialog()"
-  >
-  New Client
-</button>
-<button
-    mat-raised-button
-    color="warn"
-    style="width:100%"
-    *ngIf="showDeleteButton"
-    (click)="getRowsSelected()"
-  >
+<button mat-icon-button style="background-color: #3f51b5;" class="button"
+  [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openClientDialog()">
+    New Client
+    <mat-icon>add</mat-icon>
+  </button><br>
+  <button mat-menu-item (click)="showChart()">
+    open Chart
+    <mat-icon> bar_chart</mat-icon>
+  </button>
+</mat-menu>
+
+<button mat-raised-button color="warn" style="width:100%" *ngIf="showDeleteButton" (click)="getRowsSelected()">
   delete
 </button>
-<ag-grid-angular
-  class="ag-theme-alpine-dark"
-  style="width: 100%; height: 100%"
-
-  [animateRows]="true"
-  [rowDragManaged]="true"
-  [suppressRowClickSelection]="true"
-
-  [rowData]="rowData"
-  [columnDefs]="columnDefs"
-  [rowSelection]="'multiple'"
-  [gridOptions]="gridOptions"
-  [defaultColDef]="defaultColDef"
-  [getContextMenuItems]="getContext"
-
-  (click)="onRowSelect()"
-  (gridReady)="onGridReady($event)"
->
+<ag-grid-angular class="ag-theme-alpine-dark" style="width: 100%; height: 100%" [animateRows]="true"
+  [rowDragManaged]="true" [suppressRowClickSelection]="true" [rowData]="rowData" [columnDefs]="columnDefs"
+  [rowSelection]="'multiple'" [gridOptions]="gridOptions" [defaultColDef]="defaultColDef"
+  [getContextMenuItems]="getContext" (click)="onRowSelect()" (gridReady)="onGridReady($event)">
 </ag-grid-angular>

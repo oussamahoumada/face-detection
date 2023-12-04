@@ -3,6 +3,7 @@ import { GridOptions } from 'ag-grid-community';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientService } from 'src/app/services/client.service';
+import { ChartDialogComponent } from '../chart-dialog/chart-dialog.component';
 import { AddUpdateClientDialogComponent } from './add-update-client-dialog/add-update-client-dialog.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { AddUpdateClientDialogComponent } from './add-update-client-dialog/add-u
 export class ClientComponent implements OnInit {
   public rowData: any;
   private gridApi: any;
+  public list_for_chart: any = [];
   public showDeleteButton = false;
   public gridOptions!: GridOptions;
 
@@ -20,15 +22,38 @@ export class ClientComponent implements OnInit {
     this.gridOptions = {
       context: { thisConmponent: this },
     };
-    this.loadData();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadData();
+  }
 
   loadData() {
     this.clientService.getClient().subscribe((res) => {
       this.rowData = res;
+      this.loadDataForChart(res);
     });
+  }
+
+  loadDataForChart(data: any) {
+    this.list_for_chart = [];
+    data.forEach((element: any) => {
+      if (element.Satisfaction != null) {
+        let it = this.list_for_chart.find(
+          (f: any) => f.libelle == element.Satisfaction
+        );
+        if (it) {
+          it.count = it.count + 1;
+        } else {
+          let newIt = {
+            libelle: element.Satisfaction,
+            count: 1,
+          };
+          this.list_for_chart.push(newIt);
+        }
+      }
+    });
+    console.log(this.list_for_chart);
   }
 
   onGridReady(params: any) {
@@ -165,5 +190,16 @@ export class ClientComponent implements OnInit {
         Swal.fire('Error', err, 'error');
       }
     );
+  }
+
+  showChart() {
+    this.dialog.open(ChartDialogComponent, {
+      width: '700px',
+      height: '500px',
+      data: {
+        list: this.list_for_chart,
+        title: 'Stats',
+      },
+    });
   }
 }

@@ -1,3 +1,4 @@
+import swal from 'sweetalert2';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatIconAnchor } from '@angular/material/button';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -58,6 +59,14 @@ export class AddUpdateClientDialogComponent implements OnInit {
         meth: 'add',
       };
       this.dialogRef.close(req);
+    } else {
+      swal.fire({
+        width: 400,
+        timer: 2000,
+        icon: 'warning',
+        text: 'All fields are required',
+        showConfirmButton: false,
+      });
     }
   }
 

@@ -1,0 +1,10 @@
+<div style="margin: 3% 8%; height: 80%; width: 80%">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center"
+    (selectedTabChange)="generateChart($event.tab.textLabel, true)">
+    <mat-tab label="bar"></mat-tab>
+    <mat-tab label="line"></mat-tab>
+    <mat-tab label="doughnut"></mat-tab>
+    <mat-tab label="polarArea"></mat-tab>
+  </mat-tab-group>
+  <canvas id="chart"></canvas>
+</div>

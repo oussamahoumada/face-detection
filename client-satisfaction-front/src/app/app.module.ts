@@ -4,6 +4,7 @@ import 'ag-grid-enterprise';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ClientComponent } from './components/client/client.component';
+import { ChartDialogComponent } from './components/chart-dialog/chart-dialog.component';
 import { RecognitionComponent } from './components/recognition/recognition.component';
 import { AddUpdateClientDialogComponent } from './components/client/add-update-client-dialog/add-update-client-dialog.component';
 //Modules
@@ -17,12 +18,14 @@ import { AppRoutingModule } from './modules/app-routing.module';
 import { MaterialModule } from './modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ClientComponent,
     RecognitionComponent,
+    ChartDialogComponent,
     AddUpdateClientDialogComponent,
   ],
   imports: [

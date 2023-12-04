@@ -56,7 +56,6 @@ class clients_adressAPI(Resource):
         if(clt):
             clt.name = clientNs.payload['name'],
             clt.mail = clientNs.payload['mail'],
-            clt.image = clientNs.payload['image'],
             clt.discount = clientNs.payload['discount'],
             clt.Satisfaction = clientNs.payload['Satisfaction'],
             clt.dateNaissance = clientNs.payload['dateNaissance']

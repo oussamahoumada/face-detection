@@ -53,7 +53,7 @@ export class RecognitionComponent implements OnInit {
             this.satisfaction = res.sentiment;
             this.discount = disc != undefined ? disc[1] : '';
             this.satisfaction_labele = icon != undefined ? icon[1] : '';
-            if (this.discount != '0%') {
+            if (this.discount != '0%' && this.name !="Unknown") {
               this.recognitionService.sent_mail({
                 client: this.name,
                 satisfaction: this.satisfaction,
