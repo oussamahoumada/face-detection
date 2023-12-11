@@ -15,10 +15,10 @@ class clients_adressAPI(Resource):
     def post(self):
         file_content = recognitionNs.payload['file']
 
-        filename = 'copie.jpg'
+        filename = 'image_to_recognize.jpg'
         uploadImage(file_content, "./", filename)
         
-        name = recognize_faces("copie.jpg", os.path.abspath('./app/peoples/'))
+        name = recognize_faces("image_to_recognize.jpg", os.path.abspath('./app/peoples/'))
         
         sensation = sensationProcess()
 

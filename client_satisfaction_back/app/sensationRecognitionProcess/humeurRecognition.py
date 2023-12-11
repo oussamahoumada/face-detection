@@ -23,7 +23,7 @@ labels = {0 : 'angry', 1 : 'disgust', 2 : 'fear', 3 : 'happy', 4 : 'neutral', 5 
 
 
 def sensationProcess():
-    im=cv2.imread(os.path.abspath('copie.jpg'))
+    im=cv2.imread(os.path.abspath('image_to_recognize.jpg'))
     gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
     faces=face_cascade.detectMultiScale(im,1.3,5)
     try: 
@@ -46,7 +46,7 @@ def sensationProcess():
 
 '''
 def sensationProcess():
-    image_path = os.path.abspath('copie.jpg')
+    image_path = os.path.abspath('image_to_recognize.jpg')
     # Load the pre-trained emotion detection model (you need to have a model file)
     emotion_model = load_model("app/sensationRecognitionProcess/emotiondetector.h5")
 

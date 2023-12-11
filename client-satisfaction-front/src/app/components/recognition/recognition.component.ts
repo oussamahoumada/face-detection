@@ -43,7 +43,7 @@ export class RecognitionComponent implements OnInit {
         this.recognitionService
           .uploadImage(
             event.target.result,
-            'copie.jpg' /*ev.target.files[0].name*/
+            'image_to_recognize.jpg' /*ev.target.files[0].name*/
           )
           .subscribe((res) => {
             console.log(res);
